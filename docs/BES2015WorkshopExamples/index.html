@@ -16,10 +16,10 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>FGE &middot; Introduction to Python</title>
+  <title>FGE &middot; BES 2015 workshop examples</title>
   <meta name="description" content="Crowd-sourced notes on all things<br>computational and quantitative in ecological research">
   <link rel="stylesheet" href="../../css/main.css">
-  <link rel="canonical" href="http://bes-qsig.github.io/fge/docs/introduction_python/">
+  <link rel="canonical" href="http://bes-qsig.github.io/fge/docs/BES2015WorkshopExamples/">
   <link rel="alternate" type="application/rss+xml" title="Field Guides for Ecologists" href="http://bes-qsig.github.io/fge/feed.xml">
   <link rel="icon" type="image/x-icon" href="../../favicon.ico">
   <script type="text/javascript" src="../../js/jquery-2.1.0.min.js"></script>
@@ -66,13 +66,13 @@
         <div class='site-title'>
             
   <h1>
-    Introduction to Python
+    BES 2015 workshop examples
   </h1>
 
 
-  Dominic Bennett (100.0%)<br>
-  Not started<br>
-  Fri-Oct-23-2015
+  susanjarvis501 (93.24%), Dominic Bennett (6.76%)<br>
+  Complete<br>
+  Wed-Jan-6-2016
   
 
 
@@ -156,10 +156,131 @@
 
       <div class="unit four-fifths">
         <div class="edit-message">
-            <a href="https://github.com/BES-QSIG/docs/blob/master/introduction_python.md"><i class="fa fa-pencil"></i> &nbsp;Improve page</a>
+            <a href="https://github.com/BES-QSIG/docs/blob/master/BES2015WorkshopExamples.md"><i class="fa fa-pencil"></i> &nbsp;Improve page</a>
         </div>
         <div class="doc-content">
-          <p>Whoops.... no one&#39;s written this yet! Maybe you could?</p>
+          <p>This page includes code examples used in the BES 2015 Quantitative SIG workshop &#39;Do you speak Python? An introduction to alternative languages for data analysis&#39;.</p>
+
+<h2 id="matlab">Matlab</h2>
+
+<p>All code in this section courtesy of Steven White, Centre for Ecology and Hydrology.</p>
+
+<h3 id="1.-ricker-model">1. Ricker model</h3>
+
+<p>This is a simple example of how to use a for loop and create a plot. The model simulates population growth over time as a function of the number of individuals.</p>
+
+<p>Note <code>%</code> used to write comments in Matlab</p>
+<div class="highlight"><pre><code class="language-matlab" data-lang="matlab"><span class="n">a</span><span class="p">=</span><span class="mf">2.5</span><span class="p">;</span> <span class="c">% Parameter values</span>
+<span class="n">b</span><span class="p">=</span><span class="mf">0.1</span><span class="p">;</span>
+<span class="n">Tend</span><span class="p">=</span><span class="mi">20</span><span class="p">;</span>
+<span class="n">N</span><span class="p">=</span><span class="nb">zeros</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="n">Tend</span><span class="p">);</span>
+<span class="n">N</span><span class="p">(</span><span class="mi">1</span><span class="p">)=</span><span class="mf">0.2</span><span class="p">;</span>
+
+<span class="k">for</span> <span class="n">t</span><span class="p">=</span><span class="mi">1</span><span class="p">:</span><span class="n">Tend</span><span class="o">-</span><span class="mi">1</span>
+    <span class="n">N</span><span class="p">(</span><span class="n">t</span><span class="o">+</span><span class="mi">1</span><span class="p">)=</span><span class="n">a</span><span class="o">*</span><span class="n">N</span><span class="p">(</span><span class="n">t</span><span class="p">)</span><span class="o">*</span><span class="nb">exp</span><span class="p">(</span><span class="o">-</span><span class="n">b</span><span class="o">*</span><span class="n">N</span><span class="p">(</span><span class="n">t</span><span class="p">));</span> <span class="c">% Iterate Ricker equation</span>
+<span class="k">end</span>
+
+<span class="n">plot</span><span class="p">(</span><span class="mi">1</span><span class="p">:</span><span class="n">Tend</span><span class="p">,</span><span class="n">N</span><span class="p">,</span><span class="s">&#39;LineWidth&#39;</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="c">% Plot the results</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Generation&#39;</span><span class="p">)</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Population&#39;</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="2.-fisher-model">2. Fisher model</h3>
+<div class="highlight"><pre><code class="language-matlab" data-lang="matlab"><span class="k">function</span><span class="err"> Fisher1D</span>
+<span class="n">p</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="n">x</span><span class="p">=</span><span class="nb">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">25</span><span class="p">,</span><span class="mi">25</span><span class="p">,</span><span class="mi">51</span><span class="p">);</span>
+<span class="n">t</span><span class="p">=</span><span class="nb">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">20</span><span class="p">,</span><span class="mi">21</span><span class="p">);</span>
+
+<span class="n">sol</span> <span class="p">=</span> <span class="n">pdepe</span><span class="p">(</span><span class="n">p</span><span class="p">,@</span><span class="n">F1Dpde</span><span class="p">,@</span><span class="n">F1Dic</span><span class="p">,@</span><span class="n">shi1bc</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">t</span><span class="p">);</span>
+<span class="n">u1</span> <span class="p">=</span> <span class="n">sol</span><span class="p">(:,:,</span><span class="mi">1</span><span class="p">);</span>
+
+<span class="n">figure</span>
+<span class="n">surf</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">t</span><span class="p">,</span><span class="n">u1</span><span class="p">)</span>
+<span class="n">title</span><span class="p">(</span><span class="s">&#39;1D Fisher Equation&#39;</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Distance x&#39;</span><span class="p">)</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Time t&#39;</span><span class="p">)</span>
+<span class="n">zlabel</span><span class="p">(</span><span class="s">&#39;Population n&#39;</span><span class="p">)</span>
+
+<span class="c">% --------------------------------------------------------------</span>
+<span class="k">function</span><span class="w"> </span>[c,diff,reac] <span class="p">=</span><span class="w"> </span><span class="nf">F1Dpde</span><span class="p">(</span>x,t,u,DuDx<span class="p">)</span><span class="w"> </span><span class="c">%reaction-diffusion equations</span>
+<span class="n">r</span><span class="p">=</span><span class="mf">1.2</span><span class="p">;</span> <span class="n">K</span><span class="p">=</span><span class="mi">1</span><span class="p">;</span> <span class="n">D</span><span class="p">=</span><span class="mf">0.5</span><span class="p">;</span> <span class="c">%parameters</span>
+<span class="n">reac</span><span class="p">=</span><span class="n">r</span><span class="o">*</span><span class="n">u</span><span class="o">*</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="n">u</span><span class="o">/</span><span class="n">K</span><span class="p">);</span> <span class="c">%reaction equation</span>
+<span class="n">c</span> <span class="p">=</span> <span class="mi">1</span><span class="p">;</span>  <span class="c">%coefficient of time derivatives, usually just set as 1</span>
+<span class="n">diff</span> <span class="p">=</span> <span class="n">D</span> <span class="o">*</span> <span class="n">DuDx</span><span class="p">;</span>  <span class="c">%diffusion part</span>
+<span class="c">% --------------------------------------------------------------</span>
+<span class="k">function</span><span class="w"> </span>u0 <span class="p">=</span><span class="w"> </span><span class="nf">F1Dic</span><span class="p">(</span>x<span class="p">)</span><span class="w"> </span><span class="c">%initial condition</span>
+<span class="k">if</span> <span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">&gt;</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">u0</span><span class="p">=</span><span class="mi">0</span><span class="p">;</span>
+<span class="k">else</span>
+    <span class="n">u0</span> <span class="p">=</span> <span class="mf">0.5</span><span class="o">*</span><span class="nb">cos</span><span class="p">(</span><span class="nb">pi</span><span class="o">*</span><span class="n">x</span><span class="o">/</span><span class="mi">2</span><span class="p">);</span>
+<span class="k">end</span><span class="p">;</span>
+<span class="c">% --------------------------------------------------------------</span>
+<span class="k">function</span><span class="w"> </span>[pl,ql,pr,qr] <span class="p">=</span><span class="w"> </span><span class="nf">shi1bc</span><span class="p">(</span>xl,ul,xr,ur,t<span class="p">)</span><span class="c">% boundary condition</span>
+<span class="n">pl</span> <span class="p">=</span> <span class="n">ul</span><span class="p">;</span>
+<span class="n">ql</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">pr</span> <span class="p">=</span> <span class="n">ur</span><span class="p">;</span>
+<span class="n">qr</span> <span class="p">=</span> <span class="mi">0</span><span class="p">;</span>
+</code></pre></div>
+<h3 id="3.-simple-linear-regression">3. Simple linear regression</h3>
+<div class="highlight"><pre><code class="language-matlab" data-lang="matlab"><span class="n">load</span> <span class="n">carsmall</span>
+<span class="n">x1</span> <span class="p">=</span> <span class="n">Weight</span><span class="p">;</span>
+<span class="n">x2</span> <span class="p">=</span> <span class="n">Horsepower</span><span class="p">;</span>    <span class="c">% Contains NaN data</span>
+<span class="n">y</span> <span class="p">=</span> <span class="n">MPG</span><span class="p">;</span>
+
+<span class="n">X</span> <span class="p">=</span> <span class="p">[</span><span class="nb">ones</span><span class="p">(</span><span class="nb">size</span><span class="p">(</span><span class="n">x1</span><span class="p">))</span> <span class="n">x1</span> <span class="n">x2</span> <span class="n">x1</span><span class="o">.*</span><span class="n">x2</span><span class="p">];</span> <span class="c">% Regression</span>
+<span class="n">b</span> <span class="p">=</span> <span class="n">regress</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="n">X</span><span class="p">);</span>    <span class="c">% Removes NaN data</span>
+
+<span class="n">scatter3</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span><span class="n">x2</span><span class="p">,</span><span class="n">y</span><span class="p">,</span><span class="s">&#39;filled&#39;</span><span class="p">)</span>
+<span class="n">hold</span> <span class="n">on</span>
+<span class="n">x1fit</span> <span class="p">=</span> <span class="n">min</span><span class="p">(</span><span class="n">x1</span><span class="p">):</span><span class="mi">100</span><span class="p">:</span><span class="n">max</span><span class="p">(</span><span class="n">x1</span><span class="p">);</span>
+<span class="n">x2fit</span> <span class="p">=</span> <span class="n">min</span><span class="p">(</span><span class="n">x2</span><span class="p">):</span><span class="mi">10</span><span class="p">:</span><span class="n">max</span><span class="p">(</span><span class="n">x2</span><span class="p">);</span>
+<span class="p">[</span><span class="n">X1FIT</span><span class="p">,</span><span class="n">X2FIT</span><span class="p">]</span> <span class="p">=</span> <span class="nb">meshgrid</span><span class="p">(</span><span class="n">x1fit</span><span class="p">,</span><span class="n">x2fit</span><span class="p">);</span>
+<span class="n">YFIT</span> <span class="p">=</span> <span class="n">b</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">X1FIT</span> <span class="o">+</span> <span class="n">b</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span><span class="o">*</span><span class="n">X2FIT</span> <span class="o">+</span> <span class="n">b</span><span class="p">(</span><span class="mi">4</span><span class="p">)</span><span class="o">*</span><span class="n">X1FIT</span><span class="o">.*</span><span class="n">X2FIT</span><span class="p">;</span>
+<span class="n">mesh</span><span class="p">(</span><span class="n">X1FIT</span><span class="p">,</span><span class="n">X2FIT</span><span class="p">,</span><span class="n">YFIT</span><span class="p">)</span>
+<span class="n">xlabel</span><span class="p">(</span><span class="s">&#39;Weight&#39;</span><span class="p">)</span>
+<span class="n">ylabel</span><span class="p">(</span><span class="s">&#39;Horsepower&#39;</span><span class="p">)</span>
+<span class="n">zlabel</span><span class="p">(</span><span class="s">&#39;MPG&#39;</span><span class="p">)</span>
+<span class="n">view</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span><span class="mi">10</span><span class="p">)</span>
+</code></pre></div>
+<h3 id="4.-intepreting-linear-regression-output">4. Intepreting linear regression output</h3>
+<div class="highlight"><pre><code class="language-matlab" data-lang="matlab"><span class="n">load</span> <span class="n">carsmall</span> <span class="c">% Load the data</span>
+<span class="n">X</span> <span class="p">=</span> <span class="p">[</span><span class="n">Weight</span><span class="p">,</span><span class="n">Horsepower</span><span class="p">,</span><span class="n">Acceleration</span><span class="p">];</span>
+
+<span class="n">lm</span> <span class="p">=</span> <span class="n">fitlm</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">MPG</span><span class="p">,</span><span class="s">&#39;linear&#39;</span><span class="p">)</span> <span class="c">% Fit linear regression model</span>
+
+<span class="n">anova</span><span class="p">(</span><span class="n">lm</span><span class="p">,</span><span class="s">&#39;summary&#39;</span><span class="p">)</span> <span class="c">% Do an ANOVA</span>
+
+<span class="n">anova</span><span class="p">(</span><span class="n">lm</span><span class="p">)</span> <span class="c">% Decompose ANOVA table for model terms</span>
+
+<span class="n">coefCI</span><span class="p">(</span><span class="n">lm</span><span class="p">)</span> <span class="c">% 95% CI</span>
+
+<span class="n">coefCI</span><span class="p">(</span><span class="n">lm</span><span class="p">,</span><span class="mf">0.01</span><span class="p">)</span> <span class="c">% 99% CI</span>
+
+<span class="c">% Test the null hypothesis that all predictor variable coefficients are</span>
+<span class="c">% equal to zero versus the alternate hypothesis that at least one of them</span>
+<span class="c">% is different from zero</span>
+<span class="p">[</span><span class="n">p</span><span class="p">,</span><span class="n">F</span><span class="p">,</span><span class="n">d</span><span class="p">]</span> <span class="p">=</span> <span class="n">coefTest</span><span class="p">(</span><span class="n">lm</span><span class="p">)</span> <span class="c">% Hypothesis test on coefficients</span>
+
+<span class="c">% Perform a hypothesis test on the coefficients of the first and second</span>
+<span class="c">% predictor variables.</span>
+
+<span class="n">H</span> <span class="p">=</span> <span class="p">[</span><span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span> <span class="mi">0</span><span class="p">;</span> <span class="mi">0</span> <span class="mi">0</span> <span class="mi">1</span> <span class="mi">0</span><span class="p">];</span>
+<span class="p">[</span><span class="n">p</span><span class="p">,</span><span class="n">F</span><span class="p">,</span><span class="n">d</span><span class="p">]</span> <span class="p">=</span> <span class="n">coefTest</span><span class="p">(</span><span class="n">lm</span><span class="p">,</span><span class="n">H</span><span class="p">)</span>
+</code></pre></div>
+<p><br>
+<br></p>
+
+<h2 id="python">Python</h2>
+
+<p>An iPython notebook with all the code examples is available at <a href="https://github.com/BES-QSIG/BES2015">https://github.com/BES-QSIG/BES2015</a>.</p>
+
+<p>To open the notebook:</p>
+
+<ol>
+<li>Download the .ipynb file to your machine</li>
+<li>If you don&#39;t already have one, download a Python distribution such as Anaconda which allows you to open iPython notebooks</li>
+<li>Open the notebook application (in the Anaconda distribution this application is called Jupyter Notebook), this will open a browser window</li>
+<li>In the browser window, navigate to where you saved the .ipynb file and click to open</li>
+</ol>
 
         </div>
       </div>
@@ -169,37 +290,34 @@
     
 
     
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
       
       
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
     
 
 <div class="unit one-fifth hide-on-mobiles">
     <aside>
     <hr class='doc-bar'>
-    Also in <i>Introductions</i>:<br>
+    Also in <i>Other</i>:<br>
     <ul>
       
         
         
-      
-        
-        
-      
-        
+          
+          <li><a href="../../docs/BES2015WorkshopExamples/">BES 2015 workshop examples</a></li>
         
       
         
@@ -207,11 +325,8 @@
       
         
         
-      
-        
-        
-      
-        
+          
+          <li><a href="../../docs/coding_philosophy/">Coding philosophy</a></li>
         
       
         
@@ -235,19 +350,25 @@
         
         
           
-          <li><a href="../../docs/introduction_c/">Introduction to C</a></li>
+          <li><a href="../../docs/google_search_tricks/">Google search tricks</a></li>
         
       
         
         
-          
-          <li><a href="../../docs/introduction_julia/">Introduction to Julia</a></li>
+      
+        
         
       
         
         
-          
-          <li><a href="../../docs/introduction_python/">Introduction to Python</a></li>
+      
+        
+        
+      
+        
+        
+      
+        
         
       
         
