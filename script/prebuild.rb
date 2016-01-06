@@ -1,11 +1,11 @@
 # Convert docs for the FGE website from the /BES-QSIG/docs repository.
 # Usage:
-#  ruby build.rb
+#  ruby script/prebuild.rb
 #  jekyll build
 # Then, upload _site/ to gh-pages branch.
 
 # LIBS
-require 'FileUtils'
+require 'fileutils'
 require 'open-uri'
 require 'json'
 require 'pp'
@@ -45,7 +45,7 @@ def mkgithubyml(udata)
   yml = "- name: #{getYmlString(udata, "name")}
   email: #{getYmlString(udata, "email")}
   affiliation: #{getYmlString(udata, "company")}
-  image: #{getYmlString(udata, "avatar_url")}
+  image: #{udata["avatar_url"]}
   github_username: #{getYmlString(udata, "login")}
 "
   yml
